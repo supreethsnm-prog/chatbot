@@ -23,7 +23,12 @@ def whatsapp():
     }
 
     res = requests.post(gemini_url, json=payload)
-    ai_reply = res.json()["candidates"][0]["content"]["parts"][0]["text"]
+    data = res.json()
+
+    if "candidates" in data:
+        ai_reply = data["candidates"][0]["content"]["parts"][0]["text"]
+    else:
+        ai_reply = "Sorry, the AI is currently unavailable. Please try again."
 
     requests.post(
         f"https://api.twilio.com/2010-04-01/Accounts/{TWILIO_SID}/Messages.json",
