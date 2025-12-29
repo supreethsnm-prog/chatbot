@@ -30,7 +30,7 @@ def whatsapp():
     else:
         ai_reply = "Sorry, the AI is currently unavailable. Please try again."
 
-    requests.post(
+    twilio_response = requests.post(
         f"https://api.twilio.com/2010-04-01/Accounts/{TWILIO_SID}/Messages.json",
         auth=(TWILIO_SID, TWILIO_TOKEN),
         data={
@@ -39,6 +39,9 @@ def whatsapp():
             "Body": ai_reply
         }
     )
+
+    print("Twilio status:", twilio_response.status_code)
+    print("Twilio response:", twilio_response.text)
 
     return "ok"
 
